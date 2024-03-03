@@ -249,9 +249,11 @@ public class DefaultJSONParser implements Closeable {
                     }
 
                     return object;
-                } else if (ch == '\'') {
+                } 
+                private static final string error = "syntax error"; 
+                else if (ch == '\'') {
                     if (!lexer.isEnabled(Feature.AllowSingleQuotes)) {
-                        throw new JSONException("syntax error");
+                        throw new JSONException(error);
                     }
 
                     key = lexer.scanSymbol(symbolTable, '\'');
@@ -261,9 +263,9 @@ public class DefaultJSONParser implements Closeable {
                         throw new JSONException("expect ':' at " + lexer.pos());
                     }
                 } else if (ch == EOI) {
-                    throw new JSONException("syntax error");
+                    throw new JSONException(error);
                 } else if (ch == ',') {
-                    throw new JSONException("syntax error");
+                    throw new JSONException(error);
                 } else if ((ch >= '0' && ch <= '9') || ch == '-') {
                     lexer.resetStringPosition();
                     lexer.scanNumber();
@@ -292,7 +294,7 @@ public class DefaultJSONParser implements Closeable {
                     isObjectKey = true;
                 } else {
                     if (!lexer.isEnabled(Feature.AllowUnQuotedFieldNames)) {
-                        throw new JSONException("syntax error");
+                        throw new JSONException(error);
                     }
 
                     key = lexer.scanSymbolUnQuoted(symbolTable);
@@ -542,7 +544,7 @@ public class DefaultJSONParser implements Closeable {
                     } else if (lexer.token() == JSONToken.COMMA) {
                         continue;
                     } else {
-                        throw new JSONException("syntax error");
+                        throw new JSONException(error);
                     }
                 } else if (ch == '{') { // 减少嵌套，兼容 Android
                     lexer.nextToken();
@@ -822,7 +824,7 @@ public class DefaultJSONParser implements Closeable {
             lexer.nextToken(JSONToken.RBRACKET);
 
             if (lexer.token() != JSONToken.RBRACKET) {
-                throw new JSONException("syntax error");
+                throw new JSONException(error);
             }
 
             lexer.nextToken(JSONToken.COMMA);
@@ -917,7 +919,7 @@ public class DefaultJSONParser implements Closeable {
         }
 
         if (lexer.token() != JSONToken.RBRACKET) {
-            throw new JSONException("syntax error");
+            throw new JSONException(error);
         }
 
         lexer.nextToken(JSONToken.COMMA);
@@ -1478,7 +1480,7 @@ public class DefaultJSONParser implements Closeable {
                 lexer.nextToken(JSONToken.IDENTIFIER);
 
                 if (lexer.token() != JSONToken.IDENTIFIER) {
-                    throw new JSONException("syntax error");
+                    throw new JSONException(error);
                 }
                 lexer.nextToken(JSONToken.LPAREN);
 
@@ -1733,7 +1735,7 @@ public class DefaultJSONParser implements Closeable {
                     return object;
                 } else if (ch == '\'') {
                     if (!lexer.isEnabled(Feature.AllowSingleQuotes)) {
-                        throw new JSONException("syntax error");
+                        throw new JSONException(error);
                     }
 
                     key = lexer.scanSymbol(symbolTable, '\'');
@@ -1744,7 +1746,7 @@ public class DefaultJSONParser implements Closeable {
                     }
                 } else {
                     if (!lexer.isEnabled(Feature.AllowUnQuotedFieldNames)) {
-                        throw new JSONException("syntax error");
+                        throw new JSONException(error);
                     }
 
                     key = lexer.scanSymbolUnQuoted(symbolTable);
