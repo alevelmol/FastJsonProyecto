@@ -14,7 +14,7 @@ import com.alibaba.fastjson.parser.*;
 import com.alibaba.fastjson.parser.DefaultJSONParser.ResolveTask;
 
 public class MapDeserializer extends ContextObjectDeserializer implements ObjectDeserializer {
-    public static MapDeserializer instance = new MapDeserializer();
+    public static final MapDeserializer instance = new MapDeserializer();
 
     @SuppressWarnings("unchecked")
     public <T> T deserialze(DefaultJSONParser parser, Type type, Object fieldName, String format, int features)
